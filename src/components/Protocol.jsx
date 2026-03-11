@@ -69,12 +69,23 @@ export default function Protocol() {
             </div>
             
             <div className="relative w-full md:w-1/2 flex justify-center items-center">
-              <svg viewBox="0 0 100 100" className="w-64 h-64 md:w-96 md:h-96 animate-[spin_20s_linear_infinite] opacity-80 text-slate-300 drop-shadow-xl">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-accent" />
-                <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="10 5" />
-                <circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" strokeWidth="2" />
-                <path d="M50 5 L50 95 M5 50 L95 50" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
-              </svg>
+              <div className="relative w-64 h-64 md:w-80 md:h-80 flex justify-center items-center">
+                {/* Brand Audit: Scanning Radar / Lens */}
+                <svg viewBox="0 0 100 100" className="w-full h-full text-slate-300 drop-shadow-xl absolute top-0 left-0">
+                  <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 4" className="animate-[spin_30s_linear_infinite]" />
+                  <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="1" />
+                  <circle cx="50" cy="50" r="15" fill="none" className="stroke-accent/50" strokeWidth="2" />
+                  {/* Crosshairs */}
+                  <line x1="50" y1="5" x2="50" y2="40" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
+                  <line x1="50" y1="60" x2="50" y2="95" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
+                  <line x1="5" y1="50" x2="40" y2="50" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
+                  <line x1="60" y1="50" x2="95" y2="50" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
+                </svg>
+                {/* Scanning sweep */}
+                <div className="absolute w-full h-full rounded-full border border-accent/20 overflow-hidden">
+                  <div className="absolute top-1/2 left-1/2 w-full h-full bg-gradient-to-tr from-accent/20 to-transparent origin-top-left animate-[spin_4s_linear_infinite]"></div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -90,12 +101,30 @@ export default function Protocol() {
             
             <div className="relative w-full md:w-1/2 flex justify-center items-center">
               <div className="relative w-64 h-64 md:w-80 md:h-80 overflow-hidden border border-white/50 bg-white/30 rounded-[2rem] flex items-center justify-center text-slate-300 shadow-[inset_0_2px_15px_rgba(0,0,0,0.05)]">
+                {/* Background grid */}
                 <div className="grid grid-cols-8 grid-rows-8 gap-4 w-full h-full p-8 relative z-0">
-                  {Array.from({length:64}).map((_,i)=><div key={i} className="w-2 h-2 rounded-full bg-current"></div>)}
+                  {Array.from({length:64}).map((_,i)=><div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-300/50"></div>)}
                 </div>
-                {/* Laser line */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-accent shadow-[0_0_20px_4px_rgba(56,189,248,0.8)] animate-[scanY_4s_ease-in-out_infinite] z-10"></div>
-                <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-accent/20 to-transparent animate-[scanY_4s_ease-in-out_infinite] z-0"></div>
+                
+                {/* Abstract UI assembling */}
+                <div className="absolute z-10 w-full h-full flex flex-col items-center justify-center gap-4">
+                  {/* Wireframe header */}
+                  <div className="w-3/4 h-8 border border-accent/30 rounded-lg flex items-center px-4 gap-2 backdrop-blur-sm shadow-sm bg-white/20">
+                    <div className="w-3 h-3 rounded-full bg-accent/40 animate-pulse"></div>
+                    <div className="w-16 h-2 rounded-full bg-slate-300"></div>
+                  </div>
+                  {/* Wireframe body */}
+                  <div className="w-3/4 h-32 border border-accent/20 rounded-xl flex shadow-sm bg-white/20 p-4 gap-4 overflow-hidden">
+                    <div className="w-1/3 h-full border border-dashed border-slate-300/50 rounded-lg translate-y-full animate-[scanY_4s_ease-out_infinite_reverse]"></div>
+                    <div className="w-2/3 flex flex-col gap-3">
+                      <div className="w-full h-3 rounded-full bg-slate-300/40 -translate-x-full animate-[pulseWave_3s_ease-out_infinite]"></div>
+                      <div className="w-4/5 h-3 rounded-full bg-slate-300/40 -translate-x-full animate-[pulseWave_3s_ease-out_infinite_0.5s]"></div>
+                      <div className="w-full h-10 border border-accent/30 rounded-lg mt-auto flex items-center justify-center backdrop-blur-md bg-white/40 shadow-[0_0_15px_rgba(56,189,248,0.2)]">
+                        <div className="w-8 h-8 rounded border-t-2 border-accent animate-[spin_2s_linear_infinite]"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -111,19 +140,33 @@ export default function Protocol() {
             </div>
             
             <div className="relative w-full md:w-1/2 flex justify-center items-center">
-              <svg viewBox="0 0 120 60" className="w-64 h-32 md:w-96 md:h-48 text-accent drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">
-                {/* Background trace */}
-                <path 
-                  d="M 0 30 L 20 30 L 30 10 L 45 50 L 55 5 L 70 40 L 80 30 L 120 30" 
-                  fill="none" stroke="currentColor" strokeWidth="1" className="opacity-20 text-slate-300"
-                />
-                {/* Animated pulse */}
-                <path 
-                  id="ekg"
-                  d="M 0 30 L 20 30 L 30 10 L 45 50 L 55 5 L 70 40 L 80 30 L 120 30" 
-                  fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" 
-                />
-              </svg>
+              {/* Implementation: Connecting Code / Architecture Nodes */}
+              <div className="relative w-64 h-64 md:w-80 md:h-80 font-mono text-accent flex items-center justify-center">
+                <svg viewBox="0 0 100 100" className="w-full h-full absolute top-0 left-0 drop-shadow-[0_0_10px_rgba(56,189,248,0.3)]">
+                   {/* Connecting lines */}
+                   <path d="M 50 20 L 20 80 M 50 20 L 80 80 M 20 80 L 80 80" stroke="currentColor" strokeWidth="0.5" className="opacity-30 stroke-slate-300" strokeDasharray="2 2" />
+                   
+                   {/* Nodes */}
+                   <circle cx="50" cy="20" r="10" fill="none" stroke="currentColor" strokeWidth="1" className="bg-white" />
+                   <circle cx="20" cy="80" r="10" fill="none" stroke="currentColor" strokeWidth="1" className="bg-white" />
+                   <circle cx="80" cy="80" r="10" fill="none" stroke="currentColor" strokeWidth="1" className="bg-white" />
+                   
+                   {/* Pulse objects moving along paths */}
+                   <circle r="2" fill="currentColor" className="opacity-80 drop-shadow-md">
+                     <animateMotion dur="3s" repeatCount="indefinite" path="M 50 20 L 20 80" />
+                   </circle>
+                   <circle r="2" fill="currentColor" className="opacity-80 drop-shadow-md">
+                     <animateMotion dur="4s" repeatCount="indefinite" path="M 20 80 L 80 80" />
+                   </circle>
+                   <circle r="2" fill="currentColor" className="opacity-80 drop-shadow-md">
+                     <animateMotion dur="3.5s" repeatCount="indefinite" path="M 80 80 L 50 20" />
+                   </circle>
+                </svg>
+                {/* Center bracket code */}
+                <div className="relative z-10 font-bold text-3xl md:text-5xl text-slate-800 tracking-tighter opacity-80 animate-pulse">
+                  {"</>"}
+                </div>
+              </div>
             </div>
           </div>
           
@@ -138,13 +181,23 @@ export default function Protocol() {
             </div>
             
             <div className="relative w-full md:w-1/2 flex justify-center items-center">
-              <div className="relative w-64 h-64 md:w-80 md:h-80 border-2 border-accent/20 rounded-full flex justify-center items-center shadow-[0_0_40px_rgba(56,189,248,0.1)]">
-                 <div className="absolute w-full h-full border border-slate-300 rounded-full animate-[spin_10s_linear_infinite_reverse]">
-                   <div className="absolute -top-2 left-1/2 w-4 h-4 bg-accent rounded-full shadow-[0_0_10px_2px_rgba(56,189,248,0.8)]"></div>
+              {/* Launch & Growth: Minimal Expanding Orbit */}
+              <div className="relative w-64 h-64 md:w-80 md:h-80 flex justify-center items-center group">
+                 {/* Outer faint solid ring connecting the orbit */}
+                 <div className="absolute w-full h-full rounded-full border border-sky-200/50 shadow-[0_0_50px_rgba(186,230,253,0.3)]"></div>
+                 
+                 {/* Inner dashed ring */}
+                 <div className="absolute w-3/4 h-3/4 rounded-full border border-dashed border-slate-200/80"></div>
+                 
+                 {/* Soft solid core ring */}
+                 <div className="absolute w-1/2 h-1/2 rounded-full bg-slate-50 border border-white/40 shadow-inner flex justify-center items-center backdrop-blur-sm">
+                    {/* Tiny center core dot */}
+                    <div className="w-3 h-3 bg-slate-200 rounded-full"></div>
                  </div>
-                 <div className="absolute w-3/4 h-3/4 border-2 border-dashed border-slate-200 rounded-full animate-[spin_15s_linear_infinite]"></div>
-                 <div className="absolute w-1/2 h-1/2 bg-gradient-to-tr from-accent/10 to-transparent rounded-full backdrop-blur-sm flex justify-center items-center">
-                    <div className="w-4 h-4 bg-slate-300 rounded-full animate-pulse"></div>
+                 
+                 {/* Orbiting blue dot */}
+                 <div className="absolute w-full h-full animate-[spin_8s_linear_infinite]">
+                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-sky-400 rounded-full shadow-[0_0_15px_rgba(56,189,248,0.6)] border-2 border-white"></div>
                  </div>
               </div>
             </div>
