@@ -52,7 +52,7 @@ export default function Hero() {
           </span>
         </h1>
         <p className="hero-text mt-8 max-w-2xl text-slate-600 font-sans text-lg md:text-2xl font-normal leading-relaxed text-balance">
-          Frontview Digital helps small businesses refresh their digital presence with modern websites, stronger branding, and smart AI automations.
+          Frontview Digital helps businesses refresh their digital presence with modern websites, stronger branding, and smart AI automations.
         </p>
         <div className="hero-cta mt-12 w-fit">
           <a href="#contact" className="magnetic relative inline-flex items-center justify-center bg-gradient-to-r from-accent to-blue-400 text-white px-10 py-4 rounded-full font-bold text-lg shadow-[0_8px_20px_rgba(56,189,248,0.4)] transition-all duration-300 hover:shadow-[0_12px_30px_rgba(56,189,248,0.6)] hover:scale-105 group">

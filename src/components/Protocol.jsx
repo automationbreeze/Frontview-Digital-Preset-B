@@ -100,31 +100,25 @@ export default function Protocol() {
             </div>
             
             <div className="relative w-full md:w-1/2 flex justify-center items-center">
-              <div className="relative w-64 h-64 md:w-80 md:h-80 overflow-hidden border border-white/50 bg-white/30 rounded-[2rem] flex items-center justify-center text-slate-300 shadow-[inset_0_2px_15px_rgba(0,0,0,0.05)]">
-                {/* Background grid */}
-                <div className="grid grid-cols-8 grid-rows-8 gap-4 w-full h-full p-8 relative z-0">
-                  {Array.from({length:64}).map((_,i)=><div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-300/50"></div>)}
-                </div>
-                
-                {/* Abstract UI assembling */}
-                <div className="absolute z-10 w-full h-full flex flex-col items-center justify-center gap-4">
-                  {/* Wireframe header */}
-                  <div className="w-3/4 h-8 border border-accent/30 rounded-lg flex items-center px-4 gap-2 backdrop-blur-sm shadow-sm bg-white/20">
-                    <div className="w-3 h-3 rounded-full bg-accent/40 animate-pulse"></div>
-                    <div className="w-16 h-2 rounded-full bg-slate-300"></div>
-                  </div>
-                  {/* Wireframe body */}
-                  <div className="w-3/4 h-32 border border-accent/20 rounded-xl flex shadow-sm bg-white/20 p-4 gap-4 overflow-hidden">
-                    <div className="w-1/3 h-full border border-dashed border-slate-300/50 rounded-lg translate-y-full animate-[scanY_4s_ease-out_infinite_reverse]"></div>
-                    <div className="w-2/3 flex flex-col gap-3">
-                      <div className="w-full h-3 rounded-full bg-slate-300/40 -translate-x-full animate-[pulseWave_3s_ease-out_infinite]"></div>
-                      <div className="w-4/5 h-3 rounded-full bg-slate-300/40 -translate-x-full animate-[pulseWave_3s_ease-out_infinite_0.5s]"></div>
-                      <div className="w-full h-10 border border-accent/30 rounded-lg mt-auto flex items-center justify-center backdrop-blur-md bg-white/40 shadow-[0_0_15px_rgba(56,189,248,0.2)]">
-                        <div className="w-8 h-8 rounded border-t-2 border-accent animate-[spin_2s_linear_infinite]"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div className="relative w-64 h-64 md:w-80 md:h-80 flex justify-center items-center group">
+                 {/* Strategy & Design: Morphing Organic Geometry */}
+                 
+                 {/* Base glowing core */}
+                 <div className="absolute w-32 h-32 bg-sky-200/40 rounded-full blur-2xl animate-[pulse_4s_ease-in-out_infinite]"></div>
+
+                 {/* Shape 1: Orbiting glass circle */}
+                 <div className="absolute w-40 h-40 border border-slate-300 bg-white/10 backdrop-blur-sm rounded-full animate-[spin_12s_linear_infinite] flex items-center justify-center transform-gpu shadow-sm">
+                   <div className="w-4 h-4 rounded-full bg-accent/60 absolute -top-2 shadow-[0_0_15px_rgba(56,189,248,0.5)]"></div>
+                 </div>
+
+                 {/* Shape 2: Counter-rotating rounded square */}
+                 <div className="absolute w-32 h-32 border border-sky-300/60 bg-white/20 backdrop-blur-md rounded-2xl animate-[spin_18s_linear_infinite_reverse] transform-gpu shadow-[inset_0_0_20px_rgba(255,255,255,0.5)] mix-blend-overlay"></div>
+
+                 {/* Shape 3: Inner delicate rings */}
+                 <div className="absolute w-20 h-20 border border-dashed border-accent/40 rounded-full animate-[spin_8s_linear_infinite]"></div>
+                 <div className="absolute w-12 h-12 bg-slate-50 border border-white/60 rounded-full shadow-inner flex items-center justify-center backdrop-blur-xl">
+                   <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
+                 </div>
               </div>
             </div>
           </div>
@@ -140,32 +134,28 @@ export default function Protocol() {
             </div>
             
             <div className="relative w-full md:w-1/2 flex justify-center items-center">
-              {/* Implementation: Connecting Code / Architecture Nodes */}
-              <div className="relative w-64 h-64 md:w-80 md:h-80 font-mono text-accent flex items-center justify-center">
-                <svg viewBox="0 0 100 100" className="w-full h-full absolute top-0 left-0 drop-shadow-[0_0_10px_rgba(56,189,248,0.3)]">
-                   {/* Connecting lines */}
-                   <path d="M 50 20 L 20 80 M 50 20 L 80 80 M 20 80 L 80 80" stroke="currentColor" strokeWidth="0.5" className="opacity-30 stroke-slate-300" strokeDasharray="2 2" />
-                   
-                   {/* Nodes */}
-                   <circle cx="50" cy="20" r="10" fill="none" stroke="currentColor" strokeWidth="1" className="bg-white" />
-                   <circle cx="20" cy="80" r="10" fill="none" stroke="currentColor" strokeWidth="1" className="bg-white" />
-                   <circle cx="80" cy="80" r="10" fill="none" stroke="currentColor" strokeWidth="1" className="bg-white" />
-                   
-                   {/* Pulse objects moving along paths */}
-                   <circle r="2" fill="currentColor" className="opacity-80 drop-shadow-md">
-                     <animateMotion dur="3s" repeatCount="indefinite" path="M 50 20 L 20 80" />
-                   </circle>
-                   <circle r="2" fill="currentColor" className="opacity-80 drop-shadow-md">
-                     <animateMotion dur="4s" repeatCount="indefinite" path="M 20 80 L 80 80" />
-                   </circle>
-                   <circle r="2" fill="currentColor" className="opacity-80 drop-shadow-md">
-                     <animateMotion dur="3.5s" repeatCount="indefinite" path="M 80 80 L 50 20" />
-                   </circle>
-                </svg>
-                {/* Center bracket code */}
-                <div className="relative z-10 font-bold text-3xl md:text-5xl text-slate-800 tracking-tighter opacity-80 animate-pulse">
-                  {"</>"}
+              {/* Implementation: Precision Data Flow Ring */}
+              <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center perspective-[1000px]">
+                {/* Outer rotating track */}
+                <div className="absolute w-56 h-56 border-2 border-slate-200 rounded-full animate-[spin_20s_linear_infinite] transform-gpu rotate-x-60 shadow-[0_10px_30px_rgba(56,189,248,0.15)]">
+                  {/* Data packets traveling on the ring */}
+                  <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-accent rounded-full shadow-[0_0_15px_rgba(56,189,248,0.8)]"></div>
+                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2 h-2 bg-sky-400 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.6)]"></div>
                 </div>
+                
+                {/* Inner counter-rotating track */}
+                <div className="absolute w-40 h-40 border-2 border-dashed border-slate-300/70 rounded-full animate-[spin_15s_linear_infinite_reverse] transform-gpu rotate-x-60"></div>
+                
+                {/* Central processing column */}
+                <div className="absolute w-16 h-32 bg-gradient-to-b from-white/80 to-white/20 backdrop-blur-md border border-white/50 rounded-xl flex flex-col items-center justify-evenly py-2 shadow-lg z-10">
+                   <div className="w-8 h-1 bg-slate-200 rounded-full animate-pulse"></div>
+                   <div className="w-10 h-1 bg-sky-300 rounded-full animate-[pulse_1.5s_ease-in-out_infinite]"></div>
+                   <div className="w-6 h-1 bg-slate-200 rounded-full animate-pulse"></div>
+                   <div className="w-10 h-1 bg-accent/60 rounded-full animate-[pulse_2s_ease-in-out_infinite]"></div>
+                </div>
+                
+                {/* Vertical laser beams */}
+                <div className="absolute w-px h-full bg-gradient-to-b from-transparent via-accent/30 to-transparent"></div>
               </div>
             </div>
           </div>
