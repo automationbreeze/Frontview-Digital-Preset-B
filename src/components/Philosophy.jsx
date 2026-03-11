@@ -37,13 +37,14 @@ export default function Philosophy() {
 
   return (
     <section ref={container} id="philosophy" className="relative w-full py-40 overflow-hidden bg-gradient-to-b from-transparent via-sky-50 to-white text-primary flex items-center justify-center -mt-px">
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <img 
-          src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&w=2600&q=80" 
+          src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&w=1200&q=60" 
           alt="Ethereal abstract texture"
-          className="parallax-bg absolute w-full h-[120%] object-cover opacity-30 mix-blend-multiply -top-[10%]"
+          loading="lazy"
+          className="parallax-bg absolute w-full h-[120%] object-cover opacity-30 mix-blend-multiply blur-sm will-change-transform -top-[10%]"
         />
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]"></div>
+        <div className="absolute inset-0 bg-white/60"></div>
       </div>
 
       <div className="text-content relative z-10 max-w-6xl px-8 text-center flex flex-col gap-10">

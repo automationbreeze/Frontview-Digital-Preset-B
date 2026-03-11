@@ -12,21 +12,70 @@ export default function Protocol() {
       const cards = gsap.utils.toArray('.protocol-card');
       
       cards.forEach((card, i) => {
-        if (i === cards.length - 1) return;
-        
-        // As soon as THIS card hits the sticky top, it starts to scale and blur.
-        // It finishes when the user has scrolled past its entire height + margin.
-        gsap.to(card, {
-          scale: 0.9,
-          opacity: 0.3,
-          filter: "blur(20px)",
-          ease: "none",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 100px", 
-            end: "bottom top",
-            scrub: true,
-          }
+        // Sticky scale & fade logic for cards 1-3
+        if (i < cards.length - 1) {
+          gsap.to(card, {
+            scale: 0.85,
+            opacity: 0,
+            filter: "blur(12px)",
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 100px", 
+              end: "bottom top",
+              scrub: true,
+            }
+          });
+        }
+
+        // Dedicated animation timeline for the SVG artwork inside the card
+        const tl = gsap.timeline({ paused: true, repeat: -1 });
+
+        if (i === 0) {
+          // Brand Audit Animation (High-Tech Radar)
+          tl.to(card.querySelector('.radar-sweep'), { rotation: 360, duration: 4, ease: 'linear' }, 0)
+            .to(card.querySelector('.target-blip-1'), { opacity: 1, duration: 0.1 }, 0.5)
+            .to(card.querySelector('.target-blip-1'), { opacity: 0, duration: 2 }, 0.6)
+            .fromTo(card.querySelector('.target-blip-1-ring'), { scale: 0.5, opacity: 1, transformOrigin: 'center' }, { scale: 2.5, opacity: 0, duration: 1 }, 0.5)
+            
+            .to(card.querySelector('.target-blip-2'), { opacity: 0.8, duration: 0.1 }, 2.6)
+            .to(card.querySelector('.target-blip-2'), { opacity: 0, duration: 1.5 }, 2.7)
+            
+            .to(card.querySelector('.target-blip-3'), { opacity: 0.8, duration: 0.1 }, 3.7)
+            .to(card.querySelector('.target-blip-3'), { opacity: 0, duration: 1.5 }, 3.8);
+        } else if (i === 1) {
+          // Strategy & Design Animation
+          tl.fromTo(card.querySelector('.draw-path'), 
+              { strokeDashoffset: 200 },
+              { strokeDashoffset: 0, duration: 4, ease: 'power1.inOut' })
+            .to(card.querySelectorAll('.node-pulse'), { attr: { r: 5 }, duration: 2, yoyo: true, stagger: 1.33 }, 0);
+        } else if (i === 2) {
+          // Implementation Puzzle Pieces
+          tl.to(card.querySelector('.puzzle-tl'), { x: -5, y: -5, duration: 2, yoyo: true, ease: 'power1.inOut' })
+            .to(card.querySelector('.puzzle-tr'), { x: 5, y: -5, duration: 2, yoyo: true, ease: 'power1.inOut', delay: 0.5 }, 0)
+            .to(card.querySelector('.puzzle-bl'), { x: -5, y: 5, duration: 2, yoyo: true, ease: 'power1.inOut', delay: 1 }, 0)
+            .to(card.querySelector('.puzzle-br'), { x: 5, y: 5, duration: 2, yoyo: true, ease: 'power1.inOut', delay: 1.5 }, 0);
+        } else if (i === 3) {
+          // Launch & Growth Rocket Launch
+          tl.fromTo(card.querySelector('.rocket-ship'), 
+              { y: 50, opacity: 0 }, 
+              { y: -100, opacity: 1, duration: 2.5, ease: 'power2.in' })
+            .to(card.querySelector('.rocket-thrust'), { scaleY: 1.5, opacity: 0.8, duration: 0.2, yoyo: true, repeat: 10 }, 0)
+            .fromTo(card.querySelectorAll('.rocket-spark'),
+              { y: 0, opacity: 1, scale: 1 },
+              { y: 40, opacity: 0, scale: 0, duration: 0.6, stagger: 0.1, repeat: 3 }, 0)
+            .to(card.querySelector('.rocket-ship'), { opacity: 0, duration: 0.2 }, 2.3);
+        }
+
+        // Only play timeline when card is actively visible
+        ScrollTrigger.create({
+          trigger: card,
+          start: "top 80%",
+          end: "bottom 20%",
+          onEnter: () => tl.play(),
+          onLeave: () => tl.pause(),
+          onEnterBack: () => tl.play(),
+          onLeaveBack: () => tl.pause()
         });
       });
     }, container);
@@ -59,7 +108,7 @@ export default function Protocol() {
         
         <div className="relative pt-12">
           {/* Card 1 */}
-          <div className="protocol-card sticky top-24 w-full h-[70vh] min-h-[500px] mb-[60vh] glass-panel shadow-[0_20px_40px_rgba(30,41,59,0.08)] border-white/60 rounded-[3rem] overflow-hidden flex flex-col md:flex-row items-center justify-between p-12 md:p-24 origin-top transition-transform duration-500">
+          <div className="protocol-card sticky top-24 w-full h-[70vh] min-h-[500px] mb-[60vh] glass-panel shadow-[0_20px_40px_rgba(30,41,59,0.08)] border-white/60 rounded-[3rem] overflow-hidden flex flex-col md:flex-row items-center justify-between p-12 md:p-24 origin-top">
             <div className="max-w-lg mb-12 md:mb-0 relative z-10">
               <div className="font-mono text-xl text-accent mb-6 font-semibold tracking-widest">01</div>
               <h3 className="font-sans font-bold text-4xl md:text-5xl mb-6 text-slate-800">Brand Audit</h3>
@@ -69,28 +118,62 @@ export default function Protocol() {
             </div>
             
             <div className="relative w-full md:w-1/2 flex justify-center items-center">
-              <div className="relative w-64 h-64 md:w-80 md:h-80 flex justify-center items-center">
-                {/* Brand Audit: Scanning Radar / Lens */}
-                <svg viewBox="0 0 100 100" className="w-full h-full text-slate-300 drop-shadow-xl absolute top-0 left-0">
-                  <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 4" className="animate-[spin_30s_linear_infinite]" />
-                  <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="1" />
-                  <circle cx="50" cy="50" r="15" fill="none" className="stroke-accent/50" strokeWidth="2" />
-                  {/* Crosshairs */}
-                  <line x1="50" y1="5" x2="50" y2="40" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
-                  <line x1="50" y1="60" x2="50" y2="95" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
-                  <line x1="5" y1="50" x2="40" y2="50" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
-                  <line x1="60" y1="50" x2="95" y2="50" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
-                </svg>
-                {/* Scanning sweep */}
-                <div className="absolute w-full h-full rounded-full border border-accent/20 overflow-hidden">
-                  <div className="absolute top-1/2 left-1/2 w-full h-full bg-gradient-to-tr from-accent/20 to-transparent origin-top-left animate-[spin_4s_linear_infinite]"></div>
+              <div className="relative w-64 h-64 md:w-80 md:h-80 flex justify-center items-center rounded-full bg-slate-900/5 shadow-[inset_0_0_20px_rgba(0,0,0,0.02)] border border-slate-200/60 overflow-hidden">
+                {/* Grid lines background */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(56,189,248,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(56,189,248,0.1)_1px,transparent_1px)] bg-[size:15px_15px] rounded-full [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)]"></div>
+                
+                {/* Radar Sweep (CSS conic-gradient for true smooth radar) */}
+                <div className="absolute inset-0 rounded-full radar-sweep origin-center" style={{ background: 'conic-gradient(from 0deg, transparent 0deg, transparent 270deg, rgba(56,189,248,0.1) 330deg, rgba(56,189,248,0.4) 360deg)' }}>
+                  {/* Leading edge line */}
+                  <div className="absolute top-0 left-1/2 w-[1.5px] h-1/2 bg-accent shadow-[0_0_12px_rgba(56,189,248,0.9)] -translate-x-1/2"></div>
                 </div>
+
+                <svg viewBox="0 0 100 100" className="w-full h-full text-slate-400 absolute top-0 left-0">
+                  {/* Concentric rings */}
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.2" className="opacity-40" />
+                  <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="0.3" className="opacity-40" strokeDasharray="1 2" />
+                  <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" strokeWidth="0.2" className="opacity-40" />
+                  <circle cx="50" cy="50" r="10" fill="none" stroke="currentColor" strokeWidth="0.2" className="opacity-40" />
+                  
+                  {/* Main Crosshairs */}
+                  <line x1="50" y1="0" x2="50" y2="100" stroke="currentColor" strokeWidth="0.2" className="opacity-50" />
+                  <line x1="0" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="0.2" className="opacity-50" />
+                  
+                  {/* Degree ticks on outer edge */}
+                  <g className="opacity-30">
+                    <line x1="50" y1="5" x2="50" y2="10" stroke="currentColor" strokeWidth="0.4" />
+                    <line x1="50" y1="90" x2="50" y2="95" stroke="currentColor" strokeWidth="0.4" />
+                    <line x1="5" y1="50" x2="10" y2="50" stroke="currentColor" strokeWidth="0.4" />
+                    <line x1="90" y1="50" x2="95" y2="50" stroke="currentColor" strokeWidth="0.4" />
+                    {/* Diagonal ticks */}
+                    <line x1="18" y1="18" x2="22" y2="22" stroke="currentColor" strokeWidth="0.3" />
+                    <line x1="82" y1="82" x2="78" y2="78" stroke="currentColor" strokeWidth="0.3" />
+                    <line x1="18" y1="82" x2="22" y2="78" stroke="currentColor" strokeWidth="0.3" />
+                    <line x1="82" y1="18" x2="78" y2="22" stroke="currentColor" strokeWidth="0.3" />
+                  </g>
+
+                  {/* Radar Blips (Targets) */}
+                  <g className="radar-blips">
+                    {/* Blip 1: 45deg approx */}
+                    <circle cx="65" cy="35" r="1.5" className="fill-accent opacity-0 target-blip-1" style={{ transformOrigin: '65px 35px' }} />
+                    <circle cx="65" cy="35" r="3" fill="none" className="stroke-accent opacity-0 target-blip-1-ring" style={{ transformOrigin: '65px 35px' }} strokeWidth="0.5" />
+                    
+                    {/* Blip 2: 240deg approx */}
+                    <circle cx="30" cy="65" r="1.2" className="fill-sky-400 opacity-0 target-blip-2" />
+                    
+                    {/* Blip 3: 340deg approx */}
+                    <circle cx="40" cy="20" r="1.4" className="fill-accent opacity-0 target-blip-3" />
+                  </g>
+                </svg>
+                
+                {/* Center Node */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-slate-50 rounded-full shadow-[0_0_10px_rgba(56,189,248,1)] border-[1.5px] border-accent"></div>
               </div>
             </div>
           </div>
 
           {/* Card 2 */}
-          <div className="protocol-card sticky top-24 w-full h-[70vh] min-h-[500px] mb-[60vh] glass-panel shadow-[0_20px_40px_rgba(30,41,59,0.08)] border-white/60 rounded-[3rem] overflow-hidden flex flex-col md:flex-row items-center justify-between p-12 md:p-24 origin-top transition-transform duration-500">
+          <div className="protocol-card sticky top-24 w-full h-[70vh] min-h-[500px] mb-[60vh] glass-panel shadow-[0_20px_40px_rgba(30,41,59,0.08)] border-white/60 rounded-[3rem] overflow-hidden flex flex-col md:flex-row items-center justify-between p-12 md:p-24 origin-top">
             <div className="max-w-lg mb-12 md:mb-0 relative z-10">
               <div className="font-mono text-xl text-accent mb-6 font-semibold tracking-widest">02</div>
               <h3 className="font-sans font-bold text-4xl md:text-5xl mb-6 text-slate-800">Strategy & Design</h3>
@@ -106,35 +189,27 @@ export default function Protocol() {
                    {/* Base workflow paths */}
                    <path d="M 20 50 C 20 20, 50 20, 50 50 C 50 80, 80 80, 80 50" fill="none" stroke="currentColor" strokeWidth="1" className="text-slate-200" strokeDasharray="2 2" />
                    
-                   {/* Animated drawing path */}
-                   <path d="M 20 50 C 20 20, 50 20, 50 50 C 50 80, 80 80, 80 50" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent/60" strokeDasharray="200" strokeDashoffset="200">
-                     <animate attributeName="stroke-dashoffset" values="200;0" dur="4s" repeatCount="indefinite" />
-                   </path>
+                   {/* Drawn path */}
+                   <path d="M 20 50 C 20 20, 50 20, 50 50 C 50 80, 80 80, 80 50" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-sky-300 draw-path" strokeDasharray="200" />
                    
                    {/* Node 1 */}
-                   <circle cx="20" cy="50" r="8" className="fill-white stroke-slate-300" strokeWidth="1" />
-                   <circle cx="20" cy="50" r="3" className="fill-accent">
-                     <animate attributeName="r" values="3;5;3" dur="4s" repeatCount="indefinite" />
-                   </circle>
+                   <circle cx="20" cy="50" r="6" className="fill-white stroke-slate-200" strokeWidth="1" />
+                   <circle cx="20" cy="50" r="3" className="fill-sky-400 node-pulse origin-center" />
                    
                    {/* Node 2 */}
-                   <circle cx="50" cy="50" r="8" className="fill-white stroke-slate-300" strokeWidth="1" />
-                   <circle cx="50" cy="50" r="3" className="fill-accent">
-                     <animate attributeName="r" values="3;5;3" dur="4s" begin="1.33s" repeatCount="indefinite" />
-                   </circle>
+                   <circle cx="50" cy="50" r="6" className="fill-white stroke-slate-200" strokeWidth="1" />
+                   <circle cx="50" cy="50" r="3" className="fill-sky-400 node-pulse origin-center" />
                    
                    {/* Node 3 */}
-                   <circle cx="80" cy="50" r="8" className="fill-white stroke-slate-300" strokeWidth="1" />
-                   <circle cx="80" cy="50" r="3" className="fill-accent">
-                     <animate attributeName="r" values="3;5;3" dur="4s" begin="2.66s" repeatCount="indefinite" />
-                   </circle>
+                   <circle cx="80" cy="50" r="6" className="fill-white stroke-slate-200" strokeWidth="1" />
+                   <circle cx="80" cy="50" r="3" className="fill-sky-400 node-pulse origin-center" />
                 </svg>
               </div>
             </div>
           </div>
 
           {/* Card 3 */}
-          <div className="protocol-card sticky top-24 w-full h-[70vh] min-h-[500px] mb-[60vh] glass-panel shadow-[0_20px_40px_rgba(30,41,59,0.08)] border-white/60 rounded-[3rem] overflow-hidden flex flex-col md:flex-row items-center justify-between p-12 md:p-24 origin-top transition-transform duration-500">
+          <div className="protocol-card sticky top-24 w-full h-[70vh] min-h-[500px] mb-[60vh] glass-panel shadow-[0_20px_40px_rgba(30,41,59,0.08)] border-white/60 rounded-[3rem] overflow-hidden flex flex-col md:flex-row items-center justify-between p-12 md:p-24 origin-top">
             <div className="max-w-lg mb-12 md:mb-0 relative z-10">
               <div className="font-mono text-xl text-accent mb-6 font-semibold tracking-widest">03</div>
               <h3 className="font-sans font-bold text-4xl md:text-5xl mb-6 text-slate-800">Implementation</h3>
@@ -144,34 +219,30 @@ export default function Protocol() {
             </div>
             
             <div className="relative w-full md:w-1/2 flex justify-center items-center">
-              {/* Implementation: Installing Puzzle Pieces */}
+              {/* Implementation: Puzzle Pieces */}
               <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
-                <div className="relative w-40 h-40">
+                <div className="relative w-36 h-36">
                   {/* Base grid outline */}
                   <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-[2px] p-[2px] border-2 border-dashed border-slate-200 rounded-2xl bg-white/30 backdrop-blur-sm">
-                    <div className="w-full h-full rounded-tl-xl rounded-br-sm bg-slate-100/30"></div>
-                    <div className="w-full h-full rounded-tr-xl rounded-bl-sm bg-slate-100/30"></div>
-                    <div className="w-full h-full rounded-bl-xl rounded-tr-sm bg-slate-100/30"></div>
-                    <div className="w-full h-full rounded-br-xl rounded-tl-sm bg-slate-100/30"></div>
                   </div>
                   
                   {/* Piece 1 (Top Left) */}
-                  <div className="absolute top-[2px] left-[2px] w-[calc(50%-1px)] h-[calc(50%-1px)] bg-white border border-slate-200 rounded-tl-xl rounded-br-sm shadow-sm flex items-center justify-center animate-[puzzleTL_4s_ease-in-out_infinite]">
-                     <div className="w-3 h-3 bg-accent/40 rounded-full"></div>
+                  <div className="absolute top-[2px] left-[2px] w-[calc(50%-1px)] h-[calc(50%-1px)] bg-white border border-slate-200 rounded-tl-xl rounded-br-sm shadow-sm flex items-center justify-center puzzle-tl">
+                     <div className="w-3 h-3 bg-sky-200 rounded-full"></div>
                   </div>
                   
                   {/* Piece 2 (Top Right) */}
-                  <div className="absolute top-[2px] right-[2px] w-[calc(50%-1px)] h-[calc(50%-1px)] bg-white border border-slate-200 rounded-tr-xl rounded-bl-sm shadow-sm flex items-center justify-center animate-[puzzleTR_4s_ease-in-out_infinite]">
+                  <div className="absolute top-[2px] right-[2px] w-[calc(50%-1px)] h-[calc(50%-1px)] bg-white border border-slate-200 rounded-tr-xl rounded-bl-sm shadow-sm flex items-center justify-center puzzle-tr">
                      <div className="w-3 h-3 bg-sky-300/60 rounded-full"></div>
                   </div>
                   
                   {/* Piece 3 (Bottom Left) */}
-                  <div className="absolute bottom-[2px] left-[2px] w-[calc(50%-1px)] h-[calc(50%-1px)] bg-white border border-slate-200 rounded-bl-xl rounded-tr-sm shadow-sm flex items-center justify-center animate-[puzzleBL_4s_ease-in-out_infinite]">
+                  <div className="absolute bottom-[2px] left-[2px] w-[calc(50%-1px)] h-[calc(50%-1px)] bg-white border border-slate-200 rounded-bl-xl rounded-tr-sm shadow-sm flex items-center justify-center puzzle-bl">
                      <div className="w-3 h-3 bg-blue-300/50 rounded-full"></div>
                   </div>
                   
                   {/* Piece 4 (Bottom Right) */}
-                  <div className="absolute bottom-[2px] right-[2px] w-[calc(50%-1px)] h-[calc(50%-1px)] bg-gradient-to-br from-accent to-blue-400 border border-blue-300 rounded-br-xl rounded-tl-sm shadow-[0_5px_15px_rgba(56,189,248,0.4)] flex items-center justify-center animate-[puzzleBR_4s_ease-in-out_infinite]">
+                  <div className="absolute bottom-[2px] right-[2px] w-[calc(50%-1px)] h-[calc(50%-1px)] bg-gradient-to-br from-accent to-blue-400 border border-blue-300 rounded-br-xl rounded-tl-sm shadow-[0_5px_15px_rgba(56,189,248,0.4)] flex items-center justify-center puzzle-br">
                      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-white drop-shadow-sm">
                        <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
                      </svg>
@@ -182,7 +253,7 @@ export default function Protocol() {
           </div>
           
           {/* Card 4 */}
-          <div className="protocol-card sticky top-24 w-full h-[70vh] min-h-[500px] mb-[20vh] glass-panel shadow-[0_20px_40px_rgba(30,41,59,0.08)] border-white/60 rounded-[3rem] overflow-hidden flex flex-col md:flex-row items-center justify-between p-12 md:p-24 origin-top transition-transform duration-500">
+          <div className="protocol-card sticky top-24 w-full h-[70vh] min-h-[500px] mb-[20vh] glass-panel shadow-[0_20px_40px_rgba(30,41,59,0.08)] border-white/60 rounded-[3rem] overflow-hidden flex flex-col md:flex-row items-center justify-between p-12 md:p-24 origin-top">
             <div className="max-w-lg mb-12 md:mb-0 relative z-10">
               <div className="font-mono text-xl text-accent mb-6 font-semibold tracking-widest">04</div>
               <h3 className="font-sans font-bold text-4xl md:text-5xl mb-6 text-slate-800">Launch & Growth</h3>
@@ -192,24 +263,47 @@ export default function Protocol() {
             </div>
             
             <div className="relative w-full md:w-1/2 flex justify-center items-center">
-              {/* Launch & Growth: Minimal Expanding Orbit */}
-              <div className="relative w-64 h-64 md:w-80 md:h-80 flex justify-center items-center group">
-                 {/* Outer faint solid ring connecting the orbit */}
-                 <div className="absolute w-full h-full rounded-full border border-sky-200/50 shadow-[0_0_50px_rgba(186,230,253,0.3)]"></div>
-                 
-                 {/* Inner dashed ring */}
-                 <div className="absolute w-3/4 h-3/4 rounded-full border border-dashed border-slate-200/80"></div>
-                 
-                 {/* Soft solid core ring */}
-                 <div className="absolute w-1/2 h-1/2 rounded-full bg-slate-50 border border-white/40 shadow-inner flex justify-center items-center backdrop-blur-sm">
-                    {/* Tiny center core dot */}
-                    <div className="w-3 h-3 bg-slate-200 rounded-full"></div>
-                 </div>
-                 
-                 {/* Orbiting blue dot */}
-                 <div className="absolute w-full h-full animate-[spin_8s_linear_infinite]">
-                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-sky-400 rounded-full shadow-[0_0_15px_rgba(56,189,248,0.6)] border-2 border-white"></div>
-                 </div>
+              {/* Launch & Growth: Rocket Launch */}
+              <div className="relative w-64 h-64 md:w-80 md:h-80 flex justify-center items-center overflow-hidden">
+                 <svg viewBox="0 0 100 100" className="w-full h-full text-slate-300 drop-shadow-xl overflow-visible">
+                   
+                   {/* Background stars/particles */}
+                   <circle cx="20" cy="20" r="1" fill="currentColor" className="opacity-20" />
+                   <circle cx="80" cy="30" r="1.5" fill="currentColor" className="opacity-30" />
+                   <circle cx="30" cy="70" r="1" fill="currentColor" className="opacity-20" />
+                   <circle cx="70" cy="80" r="1.5" fill="currentColor" className="opacity-30" />
+                   <circle cx="60" cy="15" r="1" fill="currentColor" className="opacity-40" />
+                   
+                   {/* Main Rocket Group */}
+                   <g className="rocket-ship">
+                     {/* Thrust fire */}
+                     <path className="rocket-thrust origin-top" d="M 45 70 Q 50 85 55 70 Z" fill="#38BDF8" opacity="0.8" />
+                     <path className="rocket-thrust origin-top" d="M 47 70 Q 50 80 53 70 Z" fill="#BAE6FD" opacity="0.9" />
+                     
+                     {/* Rocket body */}
+                     <path d="M 50 20 C 60 40, 60 70, 60 70 L 40 70 C 40 70, 40 40, 50 20 Z" fill="url(#rocket-grad)" stroke="#0E172A" strokeWidth="1" />
+                     
+                     {/* Fins */}
+                     <path d="M 40 60 L 30 75 L 40 70 Z" fill="#38BDF8" stroke="#0E172A" strokeWidth="1" />
+                     <path d="M 60 60 L 70 75 L 60 70 Z" fill="#38BDF8" stroke="#0E172A" strokeWidth="1" />
+                     
+                     {/* Window */}
+                     <circle cx="50" cy="45" r="5" fill="#F0F9FF" stroke="#0E172A" strokeWidth="1" />
+                     <circle cx="52" cy="43" r="1.5" fill="white" />
+                   </g>
+                   
+                   {/* Sparks trails below rocket */}
+                   <circle cx="48" cy="75" r="1" fill="#38BDF8" className="rocket-spark" />
+                   <circle cx="52" cy="78" r="1.5" fill="#BAE6FD" className="rocket-spark" />
+                   <circle cx="50" cy="82" r="1" fill="#7DD3FC" className="rocket-spark" />
+                   
+                   <defs>
+                     <linearGradient id="rocket-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                       <stop offset="0%" stopColor="#FFFFFF" />
+                       <stop offset="100%" stopColor="#E2E8F0" />
+                     </linearGradient>
+                   </defs>
+                 </svg>
               </div>
             </div>
           </div>
