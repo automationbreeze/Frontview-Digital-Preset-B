@@ -36,22 +36,22 @@ export default function Philosophy() {
   }, []);
 
   return (
-    <section ref={container} id="philosophy" className="relative w-full py-40 overflow-hidden bg-primary text-background flex items-center justify-center -mt-px">
+    <section ref={container} id="philosophy" className="relative w-full py-40 overflow-hidden bg-gradient-to-b from-transparent via-sky-50 to-white text-primary flex items-center justify-center -mt-px">
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img 
-          src="https://images.unsplash.com/photo-1550186716-e578c2e68fb4?auto=format&fit=crop&w=2600&q=80" 
-          alt="Organic background texture"
-          className="parallax-bg absolute w-full h-[120%] object-cover opacity-15 mix-blend-screen -top-[10%]"
+          src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&w=2600&q=80" 
+          alt="Ethereal abstract texture"
+          className="parallax-bg absolute w-full h-[120%] object-cover opacity-30 mix-blend-multiply -top-[10%]"
         />
-        <div className="absolute inset-0 bg-primary/80 backdrop-blur-[2px]"></div>
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]"></div>
       </div>
 
       <div className="text-content relative z-10 max-w-6xl px-8 text-center flex flex-col gap-10">
-        <p className="reveal-text font-sans text-xl md:text-2xl lg:text-3xl text-background/60 tracking-tight font-light">
-          Stop Living in the <span className="text-background font-medium">Past.</span>
+        <p className="reveal-text font-sans text-xl md:text-2xl lg:text-3xl text-slate-500 tracking-tight font-light">
+          Stop Living in the <span className="text-slate-800 font-medium">Past.</span>
         </p>
-        <h2 className="reveal-text font-drama italic text-5xl md:text-7xl lg:text-[7rem] leading-[0.9]">
-          Look Forward with <span className="text-accent not-italic font-sans font-bold tracking-tighter inline-block mx-2">Frontview</span>.
+        <h2 className="reveal-text font-drama font-semibold text-5xl md:text-7xl lg:text-[7.5rem] leading-[0.9] text-slate-800">
+          Look Forward with <span className="bg-gradient-to-r from-accent to-blue-500 bg-clip-text text-transparent not-italic font-sans font-bold tracking-tighter inline-block mx-2 pb-2">Frontview</span>.
         </h2>
       </div>
     </section>

@@ -7,16 +7,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#0A0A14",
-        accent: "#7B61FF",
-        background: "#F0EFF4",
-        dark: "#18181B",
+        background: '#F8FAFC', // Slate 50
+        primary: '#0F172A', // Slate 900
+        secondary: '#475569', // Slate 600
+        accent: '#38BDF8', // Sky 400
+        dark: '#CBD5E1', // Slate 300 (used for light borders now)
       },
       fontFamily: {
-        sans: ["Sora", "sans-serif"],
-        drama: ["Instrument Serif", "serif"],
-        mono: ["Fira Code", "monospace"],
-      }
+        sans: ['Inter', 'sans-serif'],
+        drama: ['Outfit', 'sans-serif'],
+        mono: ['Fira Code', 'monospace'],
+      },
     },
   },
   plugins: [],

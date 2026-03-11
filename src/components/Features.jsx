@@ -154,13 +154,13 @@ function CursorProtocolScheduler() {
 }
 
 export default function Features() {
-  const sectionRef = useRef(null);
+  const containerRef = useRef(null);
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
       gsap.from(".feature-card", {
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: containerRef.current,
           start: "top 75%",
         },
         y: 60,
@@ -169,43 +169,83 @@ export default function Features() {
         stagger: 0.15,
         ease: "power3.out"
       });
-    }, sectionRef);
+    }, containerRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="features" ref={sectionRef} className="py-24 px-8 md:px-16 bg-background relative z-20">
+    <section ref={containerRef} id="services" className="relative w-full py-32 px-8 md:px-16 bg-transparent z-10">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-16">
-          <h2 className="font-sans font-bold text-3xl md:text-5xl tracking-tight mb-4">Functional<br/><span className="font-drama italic text-accent font-normal text-5xl md:text-6xl">Advantage.</span></h2>
-          <p className="font-sans text-primary/70 max-w-md">Our methodology transforms your web presence through three core interactive artifacts.</p>
+        <div className="mb-24 md:flex justify-between items-end">
+          <h2 className="font-sans font-bold text-4xl md:text-6xl tracking-tight max-w-2xl text-slate-800">
+            Functional <span className="font-drama italic text-accent font-normal text-6xl md:text-7xl align-middle">Advantage.</span>
+          </h2>
+          <p className="font-sans text-xl text-slate-500 max-w-md mt-6 md:mt-0 font-light text-balance">
+            We engineer high-performance digital assets designed to convert.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Card 1 */}
-          <div className="feature-card bg-background rounded-[2rem] p-8 border border-dark/5 shadow-xl shadow-dark/5 flex flex-col">
-            <h3 className="font-sans font-bold text-xl mb-2">Website Redesign</h3>
-            <p className="font-sans text-sm text-primary/60">Modern, fast, mobile-first websites that convert visitors into customers.</p>
-            <div className="mt-auto pt-6">
-              <DiagnosticShuffler />
+          {/* Card 1: Diagnostic */}
+          <div className="feature-card glass-panel rounded-[2.5rem] p-10 flex flex-col justify-between min-h-[450px] relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(56,189,248,0.15)] hover:border-accent/40">
+            <div className="relative z-10">
+              <div className="text-xs font-mono tracking-widest text-accent mb-8">01 / CAPABILITY</div>
+              <h3 className="font-sans font-bold text-3xl mb-4 text-slate-800">Website Redesign</h3>
+              <p className="font-sans text-slate-600 font-light leading-relaxed">
+                Modern, fast, and mobile-first websites that look incredible and drive results.
+              </p>
+            </div>
+            
+            {/* Interactive Object 1 */}
+            <div className="absolute -bottom-10 -right-10 w-64 h-64 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+              <svg viewBox="0 0 100 100" className="w-full h-full text-accent drop-shadow-md">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.5" className="animate-[spin_10s_linear_infinite]" strokeDasharray="4 4"/>
+                <circle cx="50" cy="50" r="25" fill="none" className="stroke-slate-200" strokeWidth="1"/>
+                <path d="M50 10 L50 90 M10 50 L90 50" stroke="currentColor" strokeWidth="0.5" className="animate-[spin_20s_linear_infinite_reverse] origin-center opacity-50"/>
+                <circle cx="50" cy="50" r="10" fill="currentColor" className="opacity-20 animate-pulse"/>
+              </svg>
             </div>
           </div>
 
-          {/* Card 2 */}
-          <div className="feature-card bg-background rounded-[2rem] p-8 border border-dark/5 shadow-xl shadow-dark/5 flex flex-col">
-            <h3 className="font-sans font-bold text-xl mb-2">Social Media Refresh</h3>
-            <p className="font-sans text-sm text-primary/60">Updated visuals, profiles, and content structure that elevate your brand image.</p>
-            <div className="mt-auto pt-6">
-              <TelemetryTypewriter />
+          {/* Card 2: Telemetry */}
+          <div className="feature-card glass-panel rounded-[2.5rem] p-10 flex flex-col justify-between min-h-[450px] relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(56,189,248,0.15)] hover:border-accent/40">
+            <div className="relative z-10">
+              <div className="text-xs font-mono tracking-widest text-accent mb-8">02 / STRATEGY</div>
+              <h3 className="font-sans font-bold text-3xl mb-4 text-slate-800">Social Media Refresh</h3>
+              <p className="font-sans text-slate-600 font-light leading-relaxed">
+                Updated visuals, profiles, and content structure that elevate your brand image.
+              </p>
+            </div>
+            
+            {/* Interactive Object 2 */}
+            <div className="absolute -bottom-10 -right-10 w-64 h-64 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+              <svg viewBox="0 0 100 100" className="w-full h-full text-accent drop-shadow-md">
+                <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="0.5" className="animate-[spin_15s_linear_infinite] origin-center" strokeDasharray="2 2"/>
+                <line x1="30" y1="50" x2="70" y2="50" className="stroke-slate-200" strokeWidth="1"/>
+                <line x1="50" y1="30" x2="50" y2="70" className="stroke-slate-200" strokeWidth="1"/>
+                <circle cx="50" cy="50" r="5" fill="currentColor" className="opacity-20 animate-ping"/>
+              </svg>
             </div>
           </div>
 
-          {/* Card 3 */}
-          <div className="feature-card bg-background rounded-[2rem] p-8 border border-dark/5 shadow-xl shadow-dark/5 flex flex-col">
-            <h3 className="font-sans font-bold text-xl mb-2">Smart AI Automations</h3>
-            <p className="font-sans text-sm text-primary/60">Lightweight AI tools that automate responses, capture leads, and streamline workflows.</p>
-            <div className="mt-auto pt-6">
-              <CursorProtocolScheduler />
+          {/* Card 3: Cursor Protocol */}
+          <div className="feature-card glass-panel rounded-[2.5rem] p-10 flex flex-col justify-between min-h-[450px] relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(56,189,248,0.15)] hover:border-accent/40">
+            <div className="relative z-10">
+              <div className="text-xs font-mono tracking-widest text-accent mb-8">03 / AUTOMATION</div>
+              <h3 className="font-sans font-bold text-3xl mb-4 text-slate-800">Smart AI Automations</h3>
+              <p className="font-sans text-slate-600 font-light leading-relaxed">
+                Lightweight AI tools that automate responses, capture leads, and streamline workflows.
+              </p>
+            </div>
+            
+            {/* Interactive Object 3 */}
+            <div className="absolute -bottom-10 -right-10 w-64 h-64 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+              <svg viewBox="0 0 100 100" className="w-full h-full text-accent drop-shadow-md">
+                <path d="M30 40 L50 20 L70 40 M30 60 L50 80 L70 60" fill="none" stroke="currentColor" strokeWidth="0.5" className="animate-[pulse_2s_ease-in-out_infinite]"/>
+                <circle cx="50" cy="50" r="15" fill="none" className="stroke-slate-200" strokeWidth="1"/>
+                <path d="M40 50 H60 M50 40 V60" stroke="currentColor" strokeWidth="0.5" className="animate-[spin_25s_linear_infinite_reverse] origin-center opacity-50"/>
+                <circle cx="50" cy="50" r="5" fill="currentColor" className="opacity-20 animate-bounce"/>
+              </svg>
             </div>
           </div>
         </div>
