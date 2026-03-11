@@ -27,13 +27,17 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-6">
-          {['Services', 'Philosophy', 'Contact'].map((item) => (
+          {[
+            { name: 'Features', href: '#services' },
+            { name: 'Philosophy', href: '#philosophy' },
+            { name: 'Protocol', href: '#protocol' }
+          ].map((item) => (
             <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
+              key={item.name}
+              href={item.href}
               className="text-sm font-medium text-secondary hover:text-accent transition-all duration-300 hover:-translate-y-0.5"
             >
-              {item}
+              {item.name}
             </a>
           ))}
         </div>
