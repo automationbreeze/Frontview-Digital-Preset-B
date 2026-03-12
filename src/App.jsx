@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Transformation from './components/Transformation';
 import Features from './components/Features';
 import Philosophy from './components/Philosophy';
 import Protocol from './components/Protocol';
@@ -13,6 +14,7 @@ export default function App() {
       <div className="noise-overlay"></div>
       <Navbar />
       <Hero />
+      <Transformation />
       <Features />
       <Philosophy />
       <Protocol />

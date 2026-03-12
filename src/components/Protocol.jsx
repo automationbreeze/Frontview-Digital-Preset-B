@@ -17,7 +17,6 @@ export default function Protocol() {
           gsap.to(card, {
             scale: 0.85,
             opacity: 0,
-            filter: "blur(12px)",
             ease: "none",
             scrollTrigger: {
               trigger: card,

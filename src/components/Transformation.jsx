@@ -58,20 +58,20 @@ export default function Transformation() {
           >
             {/* 1. BEFORE WEBSITE (Base Image Layer) */}
             <div className="absolute inset-0 pointer-events-none bg-slate-100 flex items-center justify-center overflow-hidden">
-              <img src="/before.png" alt="Outdated Website" className="w-[105%] h-[105%] object-cover object-top opacity-90" />
+              <img src="/before.png" alt="Outdated Website" loading="lazy" decoding="async" className="w-[105%] h-[105%] object-cover object-top opacity-90" />
             </div>
 
             {/* "BEFORE" Badge */}
             <div className="absolute top-6 left-6 z-20 pointer-events-none">
-              <div className="bg-red-600 text-white font-bold px-4 py-2 rounded-full shadow-[0_4px_10px_rgba(220,38,38,0.5)] border-2 border-white text-sm tracking-wider">BEFORE</div>
+              <div className="bg-red-600 text-white font-bold px-4 py-2 rounded-full shadow-[0_4px_10px_rgba(220,38,38,0.5)] border-2 border-white text-sm tracking-wider shadow-sm">BEFORE</div>
             </div>
 
             {/* 2. AFTER WEBSITE (Clipped Image Layer) */}
             <div 
-              className="absolute inset-0 pointer-events-none bg-white shadow-[inset_5px_0_20px_rgba(0,0,0,0.08)] flex items-center justify-center overflow-hidden"
+              className="absolute inset-0 pointer-events-none bg-white shadow-[inset_5px_0_20px_rgba(0,0,0,0.08)] flex items-center justify-center overflow-hidden will-change-[clip-path]"
               style={{ clipPath: `inset(0 0 0 ${sliderPos}%)` }}
             >
-              <img src="/after.png" alt="Modern Dashboard" className="w-[105%] h-[105%] object-cover object-top" />
+              <img src="/after.png" alt="Modern Dashboard" loading="lazy" decoding="async" className="w-[105%] h-[105%] object-cover object-top scale-[1.02]" />
             </div>
 
             {/* "AFTER" Badge */}
